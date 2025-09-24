@@ -15,14 +15,14 @@
   </ul>
   {% endif %}
   {% endwith %}
-
+  
   <form action="{{ url_for('contact_complete') }}" method="post">
     이름 : <input type="text" name="username"><br>
-    메일 주소 : <input type="text" name="email"><br>
+    메일주소 : <input type="text" name="email"><br>
     문의 내용<br>
     <textarea name="description"></textarea>
     <input type="submit" value="보내기">
   </form>
-  
+
 </body>
 </html>

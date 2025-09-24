@@ -1,11 +1,12 @@
-# Created by https://www.toptal.com/developers/gitignore/api/python,flask,visualstudiocode,windows
-# Edit at https://www.toptal.com/developers/gitignore?templates=python,flask,visualstudiocode,windows
+# Created by https://www.toptal.com/developers/gitignore/api/python,flask,windows,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=python,flask,windows,visualstudiocode
 
 ### Flask ###
 instance/*
 !instance/.gitignore
 .webassets-cache
 .env
+migrations/
 
 ### Flask.Python Stack ###
 # Byte-compiled / optimized / DLL files
@@ -304,4 +305,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/python,flask,visualstudiocode,windows
+# End of https://www.toptal.com/developers/gitignore/api/python,flask,windows,visualstudiocode

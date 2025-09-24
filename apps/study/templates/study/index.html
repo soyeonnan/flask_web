@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>연습용 인덱스 페이지</h1>
+  <a href="/study/write">글작성</a>
+
+  <table>
+    <tr>
+      <th>번호</th>
+      <th>제목</th>
+      <th>작성자</th>
+    </tr>
+    {% for st in study %}
+    <tr>
+      <td>{{ st.id }}</td>
+      <td>
+        <a href="{{ url_for('study.edit', id=st.id) }}">
+        {{ st.subject }}
+        </a>
+      </td>
+      <td>{{ st.writer }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+</body>
+</html>

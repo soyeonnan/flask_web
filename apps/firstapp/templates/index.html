@@ -4,11 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <!-- 이렇게 만들면 상대 경로를 변경 될 때마다 수정을 해야해서 진자 문법을 사용함 -->
-  <!-- <link rel="stylesheet" href="../static/style.css"> -->
-   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h1>안녕하세요 {{ name }}님!!</h1>
+  <h1>안녕하세요 {{ name }}님!!</h1>  
 </body>
 </html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h2>글 작성 페이지</h2>
+
+  {% for field in form %}
+    {% for error in field.errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
+  {% endfor %}
+
+  <form action="{{ url_for('study.write') }}" method="post" novalidate>
+    {{ form.csrf_token }}
+
+    <div>
+      {{ form.subject.label }}
+      {{ form.subject(placeholder='제목') }}
+
+      {{ form.writer.label }}
+      {{ form.writer(placeholder='작성자') }}
+    </div>
+    <div>
+      {{ form.content.label }}
+      {{ form.content() }}
+    </div>
+
+    {{ form.submit() }}
+  </form>
+</body>
+</html>

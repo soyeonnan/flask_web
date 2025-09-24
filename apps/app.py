@@ -2,28 +2,38 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
+from flask_login import LoginManager
+
+from apps.config import config
+import os
+
+config_key = os.environ.get("FLASK_CONFIG_KEY")
 
 db = SQLAlchemy()
-csrf = CSRFProtect() 
+csrf = CSRFProtect()
+login_manager = LoginManager()
 
-def create_app(): # 이건 고정임 -> 이름 변경X
+def create_app():
   app = Flask(__name__)
 
-  # MySQL 연결 URI 설정
-  app.config.from_mapping(
-    SQLALCHEMY_DATABASE_URI='mysql+mysqlconnector://root:1234@localhost:3306/flaskDB',
-    SQLALCHEMY_TRACK_MODIFICATIONS=False, # 변경 추적 비활성화(계속 활성화 되면 성능이 떨어짐)
-    SQLALCHEMY_ECHO=True, # SQL문 콘솔창에 띄워주는 거
-    SECRET_KEY='1234',
-    WTF_CSRF_SECRET_KEY='1234'
-  )
+  app.config.from_object(config[config_key])
 
   csrf.init_app(app)
   db.init_app(app)
   Migrate(app, db)
+  login_manager.init_app(app)
+  login_manager.login_view = 'auth.login'
+  login_manager.login_message = '로그인 후 이용 가능'
 
+  
   from apps.crud import views as crud_views
+  from apps.study import views as study_views
+  from apps.auth import views as auth_views
+  from apps.detector import views as dt_views
 
-  app.register_blueprint(crud_views.crud, url_prefix='/crud') # 모든 경로 앞에 crud가 붙음
+  app.register_blueprint(crud_views.crud, url_prefix='/crud')
+  app.register_blueprint(study_views.study, url_prefix="/study")
+  app.register_blueprint(auth_views.auth, url_prefix="/auth")
+  app.register_blueprint(dt_views.dt) # 기본 도메인으로 시작한다는 것임
 
   return app

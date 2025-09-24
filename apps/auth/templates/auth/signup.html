@@ -1,0 +1,41 @@
+{% extends "auth/base.html" %}
+
+{% block title %}auth signup{% endblock %}
+
+{% block content %}
+
+<h2>auth signup page</h2>
+
+{% for field in form %}
+  {% for error in field.errors %}
+    <div style="color: red;">{{ error }}</div>
+  {% endfor %}
+{% endfor %}
+
+<form action="{{ url_for('auth.signup') }}" method="post" novalidate>
+  {{ form.csrf_token }}
+  <div>
+    {{ form.username.label }}
+    {{ form.username(placeholder="사용자명") }}
+  </div>
+
+  <div>
+    {{ form.email.label }}
+    {{ form.email(placeholder="이메일") }}
+  </div>
+  {% for msg in get_flashed_messages() %}
+  <span style="color: blue;">{{ msg }}</span>
+  {% endfor %}
+  <div>
+    {{ form.password.label }}
+    {{ form.password(placeholder="비밀번호") }}
+  </div>
+  
+  <div>
+    {{ form.submit() }}
+  </div>
+
+</form>
+
+
+{% endblock %}

@@ -1,21 +1,22 @@
 {% extends "crud/base.html" %}
 
-{% block title %}회원가입{% endblock %}
+{% block title %}수정{% endblock %}
 
 {% block content %}
-  <h2>회원가입 페이지</h2>
-  <form action="{{ url_for('crud.create_user') }}" method="post" novalidate>
+  <h2>회원 정보 수정페이지</h2>
+
+  <form action="{{ url_for('crud.edit_user', user_id=user.id) }}" method="post" novalidate>
     {{ form.csrf_token }}
     <p>
       {{ form.username.label }}
-      {{ form.username(placeholder="사용자명") }}
+      {{ form.username(placeholder="사용자명", value=user.username) }}
     </p>
     {% for error in form.username.errors %}
     <span style="color: red;">{{ error }}</span>
     {% endfor %}
     <p>
       {{ form.email.label }}
-      {{ form.email(placeholder="이메일") }}
+      {{ form.email(placeholder="이메일", value=user.email) }}
     </p>
     {% for error in form.email.errors %}
     <span style="color: red;">{{ error }}</span>
@@ -28,8 +29,13 @@
     <span style="color: red;">{{ error }}</span>
     {% endfor %}
     <p>
-      {{ form.submit() }}
+      <input type="submit" value="수정하기">
     </p>
-
   </form>
+
+  <form action="{{ url_for('crud.delete_user', user_id=user.id) }}" method="post">
+    {{ form.csrf_token }}
+    <input type="submit" value="삭제">
+  </form>
+
 {% endblock %}
