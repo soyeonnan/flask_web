@@ -1,41 +1,50 @@
-{% extends "auth/base.html" %}
+{% extends "detector/base.html" %}
 
 {% block title %}auth signup{% endblock %}
 
 {% block content %}
+<div class="mx-auth dt-auth-main">
+  <div class="card dt-auth-main">
 
-<h2>auth signup page</h2>
-
-{% for field in form %}
-  {% for error in field.errors %}
-    <div style="color: red;">{{ error }}</div>
-  {% endfor %}
-{% endfor %}
-
-<form action="{{ url_for('auth.signup') }}" method="post" novalidate>
-  {{ form.csrf_token }}
-  <div>
-    {{ form.username.label }}
-    {{ form.username(placeholder="사용자명") }}
-  </div>
-
-  <div>
-    {{ form.email.label }}
-    {{ form.email(placeholder="이메일") }}
-  </div>
-  {% for msg in get_flashed_messages() %}
-  <span style="color: blue;">{{ msg }}</span>
-  {% endfor %}
-  <div>
-    {{ form.password.label }}
-    {{ form.password(placeholder="비밀번호") }}
-  </div>
   
-  <div>
-    {{ form.submit() }}
+    <header>auth signup page</header>
+
+    {% for field in form %}
+      {% for error in field.errors %}
+        <div style="color: red;">{{ error }}</div>
+      {% endfor %}
+    {% endfor %}
+
+    <section>
+      
+      <form action="{{ url_for('auth.signup') }}" method="post" novalidate>
+        {{ form.csrf_token }}
+        <div>
+          {{ form.username.label }}
+          {{ form.username(placeholder="사용자명", class="form-cintrol dt-auth-input") }}
+        </div>
+  
+        <div>
+          {{ form.email.label }}
+          {{ form.email(placeholder="이메일", class="form-cintrol dt-auth-input") }}
+        </div>
+        {% for msg in get_flashed_messages() %}
+        <span style="color: blue;">{{ msg }}</span>
+        {% endfor %}
+        <div>
+          {{ form.password.label }}
+          {{ form.password(placeholder="비밀번호", class="form-cintrol dt-auth-input") }}
+        </div>
+        
+        <div>
+          {{ form.submit(class="btn btn-md btn-primary btn-block dt-auth-btn") }}
+        </div>
+  
+      </form>
+
+    </section>
+
   </div>
-
-</form>
-
+</div>
 
 {% endblock %}

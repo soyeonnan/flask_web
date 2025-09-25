@@ -7,6 +7,8 @@ instance/*
 .webassets-cache
 .env
 migrations/
+*.pt
+images/
 
 ### Flask.Python Stack ###
 # Byte-compiled / optimized / DLL files

@@ -2,4 +2,20 @@
 
 {% block content %}
 <h2>물체 감지 인덱스 페이지</h2>
+
+<div class="col-md-10 text-right dt-image-register-btn">
+  <a class="btn btn-primary" href="{{ url_for('detector.upload_image') }}">이미지 등록</a>
+</div>
+{% for user_image in user_images %}
+<div class="card col-md-7 dt-image-content">
+  <div>
+    작성자 : {{ user_image.User.username }}
+  </div>
+  <section>
+    <img src="{{ url_for('detector.image_file', filename=user_image.UserImage.image_path) }}" alt="">
+    {{ user_image.UserImage.image_path }}
+  </section>
+</div>
+{% endfor %}
+
 {% endblock %}

@@ -1,37 +1,47 @@
-{% extends "auth/base.html" %}
+{% extends "detector/base.html" %}
 
 {% block title %}auth login{% endblock %}
 
 {% block content %}
 
-<h2>로그인 페이지</h2>
+<div class="mx-auth dt-auth-main">
+  <div class="card dt-auth-main">
 
-{% for field in form %}
-  {% for error in field.errors %}
-    <div style="color: red;">{{ error }}</div>
-  {% endfor %}
-{% endfor %}
+    <header>로그인 페이지</header>
 
-<form action="{{ url_for('auth.login', next=request.args.get('next')) }}" method="post" novalidate>
-  {{ form.csrf_token }}
-  <div>
-    {{ form.username.label }}
-    {{ form.username(placeholder="사용자명") }}
-  </div>
+    {% for field in form %}
+      {% for error in field.errors %}
+        <div style="color: red;">{{ error }}</div>
+      {% endfor %}
+    {% endfor %}
 
-  {% for msg in get_flashed_messages() %}
-  <span style="color: blueviolet;">{{ msg }}</span>
-  {% endfor %}
-  <div>
-    {{ form.password.label }}
-    {{ form.password(placeholder="비밀번호") }}
-  </div>
+    <section>
+
+      <form action="{{ url_for('auth.login', next=request.args.get('next')) }}" method="post" novalidate>
+        {{ form.csrf_token }}
+        <div>
+          {{ form.username.label }}
+          {{ form.username(placeholder="사용자명", class="form-cintrol dt-auth-input") }}
+        </div>
   
-  <div>
-    {{ form.submit() }}
-  </div>
+        {% for msg in get_flashed_messages() %}
+        <span style="color: blueviolet;">{{ msg }}</span>
+        {% endfor %}
+        <div>
+          {{ form.password.label }}
+          {{ form.password(placeholder="비밀번호", class="form-cintrol dt-auth-input") }}
+        </div>
+        
+        <div>
+          {{ form.submit() }}
+        </div>
+  
+      </form>
 
-</form>
+    </section>
+
+  </div>
+</div>
 
 {% endblock %}
 

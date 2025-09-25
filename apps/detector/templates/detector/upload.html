@@ -1,0 +1,21 @@
+{% extends "detector/base.html" %}
+
+{% block content %}
+
+<h3>이미지 등록 페이지</h3>
+
+<form action="{{ url_for('detector.upload_image') }}" method="post" enctype="multipart/form-data" novalidate>
+{{ form.csrf_token }}
+<div>
+  <p>업로드 할 이미지를 선택</p>
+  {{ form.image(class="form-control-file") }}
+
+  {% for error in form.image.errors %}
+  <p style="color: red;">{{ error }}</p>
+  {% endfor %}
+
+</div>
+  {{ form.submit(class="btn btn-primary") }}
+</form>
+
+{% endblock %}
