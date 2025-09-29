@@ -1,7 +1,6 @@
 from apps.app import db, login_manager
-from flask_login import UserMixin # 인증 관련 메서드들을 가진 함수
-from apps.app import db
-from werkzeug.security import generate_password_hash, check_password_hash # 비번 암호화, 패싱 된 걸 비교해주는 함수
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from datetime import datetime
 
@@ -14,8 +13,8 @@ class User(db.Model, UserMixin):
   username = db.Column(db.String(255), index=True)
   email = db.Column(db.String(255), unique=True, index=True)
   password_hash = db.Column(db.String(255))
-  create_at = db.Column(db.DateTime, default=datetime.now)
-  update_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+  created_at = db.Column(db.DateTime, default=datetime.now)
+  updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
   @property
   def password(self):
@@ -31,9 +30,9 @@ class User(db.Model, UserMixin):
   
   # 메일 중복 검사
   def is_duplicate_email(self):
-    # select * from users where email = self.email
-    return User.query.filter_by(email=self.email).first() is not None # 있으면 True 없으면 False
+    # select * from users where email=self.email
+    return User.query.filter_by(email=self.email).first() is not None
   
-@login_manager.user_loader # user정도블 꺼내올 수 있는 로직을 추가함(?)
+@login_manager.user_loader
 def load_user(user_id):
   return User.query.get(user_id)

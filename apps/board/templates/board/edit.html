@@ -1,0 +1,25 @@
+{% extends "detector/base.html" %}
+
+{% block content %}
+<h2>글수정 페이지</h2>
+
+{% for field in form %}
+  {% for error in field.errors %}
+    <p style="color: red;">{{ error }}</p>
+  {% endfor %}
+{% endfor %}
+
+<form action="{{ url_for('board.edit', board_id=board.id) }}" method="post" novalidate>
+  {{ form.csrf_token }}
+  <div>
+    {{ form.subject.label }}
+    {{ form.subject(class="form-control") }}
+  </div>
+  <div>
+    {{ form.content.label }}
+    {{ form.content(class="form-control", rows=10) }}
+  </div>
+  {{ form.submit(class="btn btn-primary mt-3") }}
+</form>
+
+{% endblock %}

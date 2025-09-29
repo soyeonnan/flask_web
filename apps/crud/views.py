@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import login_required # 인증되지 않으면 차단(데코레이터?라고 생각하면됨)
+from flask_login import login_required
 
 from apps.crud.forms import UserForm
 from apps.crud.models import User

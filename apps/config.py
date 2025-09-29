@@ -1,13 +1,13 @@
 import secrets
 from pathlib import Path
 
-basedir = Path(__file__).parent.parent # 상위 디렉터리 파일을 잡기 위한 경로 (parent는 ../이거로 보면 됨)
+basedir = Path(__file__).parent.parent
 
 # 전체 환경 공통 설정들...
 class BaseConfig:
   SECRET_KEY = secrets.token_urlsafe(32)
   WTF_CSRF_SECRET_KEY = secrets.token_urlsafe(32)
-  UPLOAD_FOLDER = str( Path(basedir, "apps","images") )
+  UPLOAD_FOLDER = str( Path(basedir, "apps", "images") )
   LABELS = [
         "unlabeled",
         "person",

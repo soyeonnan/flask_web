@@ -3,16 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> {% block title %} Detector {% endblock %} </title>
+  <title>{% block title %}Detector{% endblock %}</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">　
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand " href="{{ url_for('detector.index') }}">detector</a>
         
+        <div>
+          <form action="{{ url_for('detector.search') }}">
+            <input type="text" name="search" placeholder="검색어 입력 후 엔터">
+          </form>
+        </div>
+
+
         <ul class="navbar-nav">
             {% if current_user.is_authenticated %}
             <li class="nav-item">
@@ -29,14 +35,15 @@
                 <a class="nav-link" href="{{ url_for('auth.login') }}">로그인</a>
             </li>
             {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('board.index') }}">게시판</a>
+            </li>
         </ul>
     </div>
   </nav>
 
   <section class="container">
-
-    {% block content %} {% endblock %}
-
+  {% block content %}{% endblock %}
   </section>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>

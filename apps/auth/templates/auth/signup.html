@@ -1,50 +1,43 @@
 {% extends "detector/base.html" %}
-
-{% block title %}auth signup{% endblock %}
+{% block title %}회원가입{% endblock %}
 
 {% block content %}
-<div class="mx-auth dt-auth-main">
+
+<div class="mx-auto dt-auth-main">
   <div class="card dt-auth-main">
-
-  
-    <header>auth signup page</header>
-
-    {% for field in form %}
-      {% for error in field.errors %}
-        <div style="color: red;">{{ error }}</div>
-      {% endfor %}
-    {% endfor %}
+    <header>회원가입 페이지</header>
 
     <section>
-      
-      <form action="{{ url_for('auth.signup') }}" method="post" novalidate>
+      <form class="form-signin" action="{{ url_for('auth.signup') }}" method="post" novalidate>
         {{ form.csrf_token }}
         <div>
           {{ form.username.label }}
-          {{ form.username(placeholder="사용자명", class="form-cintrol dt-auth-input") }}
+          {{ form.username(placeholder="사용자명", class="form-control dt-auth-input") }}
         </div>
-  
+        {% for error in form.username.errors %}
+        <span style="color: red;">{{ error }}</span>
+        {% endfor %}
         <div>
           {{ form.email.label }}
-          {{ form.email(placeholder="이메일", class="form-cintrol dt-auth-input") }}
+          {{ form.email(placeholder="이메일", class="form-control dt-auth-input") }}
         </div>
         {% for msg in get_flashed_messages() %}
         <span style="color: blue;">{{ msg }}</span>
         {% endfor %}
+        {% for error in form.email.errors %}
+        <span style="color: red;">{{ error }}</span>
+        {% endfor %}
         <div>
           {{ form.password.label }}
-          {{ form.password(placeholder="비밀번호", class="form-cintrol dt-auth-input") }}
+          {{ form.password(placeholder="비밀번호", class="form-control dt-auth-input") }}
         </div>
-        
-        <div>
-          {{ form.submit(class="btn btn-md btn-primary btn-block dt-auth-btn") }}
-        </div>
-  
+        {% for error in form.password.errors %}
+        <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+        <br>
+        {{ form.submit(class="btn btn-md btn-primary btn-block dt-auth-btn") }}
       </form>
-
     </section>
-
   </div>
 </div>
-
 {% endblock %}

@@ -1,0 +1,137 @@
+{% extends "detector/base.html" %}
+
+{% block content %}
+<div class="mb-3">
+  <label class="form-label">제목</label>
+  <input type="text" class="form-control" value="{{ board.subject }}" readonly>
+</div>
+<div class="mb-3">
+  <label class="form-label">작성자</label>
+  <input type="text" class="form-control" value="{{ board.user.username }}" readonly>
+</div>
+<div class="mb-3">
+  <label class="form-label">작성일자</label>
+  <input type="text" class="form-control" value="{{ board.created_at }}" readonly>
+</div>
+<div class="mb-3">
+  <label class="form-label">내용</label>
+  <textarea class="form-control" rows="10" readonly>{{ board.content }}</textarea>
+</div>
+<div class="mb-3">
+  {% if current_user.id == board.user.id %}
+  <a class="btn btn-warning" href="{{ url_for('board.edit', board_id=board.id) }}">수정</a>
+  <a class="btn btn-danger" href="{{ url_for('board.delete', board_id=board.id) }}">삭제</a>
+  {% endif %}
+</div>
+
+<hr>
+
+<div>
+  <h5>댓글 {{ board.reply_list|length }}</h5>
+  <div class="reply-list">
+    {% for reply in board.reply_list %}
+      <div id="reply-{{ reply.id }}">
+        <div>
+          <p>작성자 : {{ reply.user.username }}</p>
+          <p id="content-text-{{ reply.id }}">{{ reply.content }}</p>
+          <textarea id="content-edit-{{ reply.id }}" class="d-none">{{ reply.content }}</textarea>
+          <p>작성일 : {{ reply.created_at }}</p>
+        </div>
+        <div>
+          <button class="edit-reply-btn" data-reply-id="{{ reply.id }}">수정</button>
+          <button class="save-reply-btn d-none" data-reply-id="{{ reply.id }}">저장</button>
+          <button onclick="deleteReply( '{{ reply.id }}' )">삭제</button>
+        </div>
+      </div>
+      <hr>
+    {% endfor %}
+  </div>
+  <div>
+    <form action="{{ url_for('reply.new_reply', board_id=board.id) }}" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <textarea class="form-control" name="content" rows="3"></textarea>
+      <input class="btn btn-primary" type="submit" value="댓글등록">
+    </form>
+  </div>
+</div>
+
+<script>
+  const deleteReply = async (replyId) => {
+    const csrfToken = document.querySelector('input[name="csrf_token"]').value
+
+    const response = await fetch(`/reply/${replyId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type' : 'application/json',
+        'X-CSRFToken' : csrfToken
+      }
+    })
+
+    const data = await response.json()
+
+    if(response.ok) {
+      alert(data.message)
+      document.querySelector(`#reply-${replyId}`).remove()
+    } else {
+      alert(data.message)
+    }
+
+  }
+
+
+  document.querySelector('.reply-list').addEventListener('click', (e) => {
+    const replyId = e.target.dataset.replyId
+
+    // 수정 버튼 눌렀을 때 실행할 코드
+    // 수정버튼을 누르면 기존 내용은 안보이게 사라지고 작성가능한 창이 나타나야 함
+    // 수정버튼은 사라지고 저장버튼이 나타나야 함
+    if(e.target.classList.contains('edit-reply-btn')) {
+      const contentText = document.querySelector(`#content-text-${replyId}`)
+      const editButton = e.target
+      const contentEdit = document.querySelector(`#content-edit-${replyId}`)
+      const saveButton = document.querySelector(`#reply-${replyId} .save-reply-btn`)
+
+      contentText.classList.add('d-none')
+      editButton.classList.add('d-none')
+      contentEdit.classList.remove('d-none')
+      saveButton.classList.remove('d-none')
+    }
+
+    // 저장 버튼 눌렀을 때 실행할 코드
+    if(e.target.classList.contains('save-reply-btn')) {
+      const csrfToken = document.querySelector('input[name="csrf_token"]').value
+      const newContent = document.querySelector(`#content-edit-${replyId}`).value
+
+      fetch(`/reply/${replyId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type' : 'application/json',
+          'X-CSRFToken' : csrfToken
+        },
+        body: JSON.stringify( {content: newContent} )
+      }).then(response => response.json())
+      .then(data => {
+        alert(data.message)
+
+        if(data.status == 'success') {
+          document.querySelector(`#content-text-${replyId}`).innerText = newContent
+          document.querySelector(`#content-text-${replyId}`).classList.remove('d-none')
+          document.querySelector(`#reply-${replyId} .edit-reply-btn`).classList.remove('d-none')
+
+          document.querySelector(`#content-edit-${replyId}`).classList.add('d-none')
+          e.target.classList.add('d-none')
+        }
+
+      })
+
+    }
+
+  })
+
+
+
+
+</script>
+
+
+{% endblock %}
